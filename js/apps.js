@@ -28,22 +28,38 @@ const displayNews = AllNews => {
     })
 }
 
-const breakCard = async (thenid) => {
-    const url = `https://openapi.programming-hero.com/api/news/category/0${thenid}`
+const breakCard = async (newsId) => {
+    const sppinner = document.getElementById('spinnerPart');
+    sppinner.classList.remove('d-none')
+    const url = `https://openapi.programming-hero.com/api/news/category/0${newsId}`
     const res = await fetch(url)
     const data = await res.json()
     displayAllNews(data.data)
 }
 
 const displayAllNews = phones => {
+    // console.log(phones)
     const phonesContainer = document.getElementById('news-container');
     phonesContainer.textContent = '';
     const founder = document.getElementById('totalFounder')
     founder.innerText = phones.length
+    const shortFind = phones.sort((x, y) => {
+        if (x.total_view < y.total_view) {
+            return 1;
+        }
+        else {
+            return -1
+        }
+
+    })
     phones.forEach(phone => {
-        console.log(phone)
+        // console.log(phone)
         const PhoneDiv = document.createElement('div');
+
+        const sppinner = document.getElementById('spinnerPart');
+        sppinner.classList.add('d-none')
         PhoneDiv.classList.add('col');
+
         PhoneDiv.innerHTML = `
         <div class="card h-100">
         <img src="${phone.image_url}" class="card-img-top" alt="...">
@@ -60,7 +76,7 @@ const displayAllNews = phones => {
 
             </div>
 
-            <button onclick="loadPhoneDetails('${phone.author.name}')" href="#" class="btn btn-primary mt-4" data-bs-toggle="modal" data-bs-target="#phoneDetailModel">Show Details</button> 
+            <button onclick="loadPhoneDetails('${phone._id}')" href="#" class="btn btn-primary mt-4" data-bs-toggle="modal" data-bs-target="#phoneDetailModel">Show Details</button> 
            
 
         </div>
@@ -71,32 +87,37 @@ const displayAllNews = phones => {
     })
 }
 
-breakCard();
+
 
 
 
 
 const loadPhoneDetails = async (thenid) => {
-    const url = `https://openapi.programming-hero.com/api/news/category/0${thenid}`;
+    // console.log(thenid)
+    const url = ` https://openapi.programming-hero.com/api/news/${thenid}`;
     const res = await fetch(url);
     const data = await res.json();
-    displayPhonesDetails(data.data)
+    displayPhonesDetails(data.data[0])
 }
 
 
 const displayPhonesDetails = phone => {
-    console.log(phone);
+    // console.log(phone);
     const modalTitle = document.getElementById('phoneDetailModelLabel');
-    modalTitle.innerText = phone;
     const phoneDetails = document.getElementById('phone-Details');
     phoneDetails.innerHTML = `
+    <img src="${phone.image_url}" class="card-img-top" alt="...">
+    <h5 class="card-title p-4 ">${phone.author.name}</h5>
+    <p class="card-text">${phone.details.length > 150 ? phone.details.slice(0, 150) + '...' : phone.details}</p>
     <p>Release Date: ${phone.author.
             published_date ? phone.author.published_date : 'No Release Date Found'}</p>
+            <h5 class="card-title ms-4"><i class="fa-solid fa-eye"></i>${phone.total_view}</h5>
     `
 
 }
 
 
 
-gi
+// displayAllNews(01);
 
+breakCard(1);
