@@ -60,7 +60,7 @@ const displayAllNews = phones => {
 
             </div>
 
-            <button onclick="loadPhoneDetails('${phone.author}')" href="#" class="btn btn-primary mt-4" data-bs-toggle="modal" data-bs-target="#phoneDetailModel">Show Details</button> 
+            <button onclick="loadPhoneDetails('${phone.author.name}')" href="#" class="btn btn-primary mt-4" data-bs-toggle="modal" data-bs-target="#phoneDetailModel">Show Details</button> 
            
 
         </div>
@@ -76,41 +76,27 @@ breakCard();
 
 
 
-const loadPhoneDetails = async id => {
-    const url = `https://openapi.programming-hero.com/api/news/{news_id}`;
+const loadPhoneDetails = async (thenid) => {
+    const url = `https://openapi.programming-hero.com/api/news/category/0${thenid}`;
     const res = await fetch(url);
     const data = await res.json();
     displayPhonesDetails(data.data)
 }
 
 
-// const displayPhonesDetails = phone => {
-//     console.log(phone);
-//     const modalTitle = document.getElementById('phoneDetailModelLabel');
-//     modalTitle.innerText = phone.name;
-//     const phoneDetails = document.getElementById('phone-Details');
-//     phoneDetails.innerHTML = `
-//     <p>Release Date: ${phone.total_view ? phone.total_view : 'No View Data Found'}</p>
-//     `
-// }
+const displayPhonesDetails = phone => {
+    console.log(phone);
+    const modalTitle = document.getElementById('phoneDetailModelLabel');
+    modalTitle.innerText = phone;
+    const phoneDetails = document.getElementById('phone-Details');
+    phoneDetails.innerHTML = `
+    <p>Release Date: ${phone.author.
+            published_date ? phone.author.published_date : 'No Release Date Found'}</p>
+    `
+
+}
 
 
 
-
-
-
-
-
-// const allCardNews = cardNews => {
-//     const breakingNewsContainer = document.getElementById('news-container');
-//     cardNews.forEach(phone => {
-//         const cardDiv = document.createElement('div');
-//         cardDiv.classList.add('col');
-//         cardDiv.innerHTML = `
-
-//         `;
-
-//     })
-// }
-
+gi
 
