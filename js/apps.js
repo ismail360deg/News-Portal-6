@@ -38,6 +38,8 @@ const breakCard = async (thenid) => {
 const displayAllNews = phones => {
     const phonesContainer = document.getElementById('news-container');
     phonesContainer.textContent = '';
+    const founder = document.getElementById('totalFounder')
+    founder.innerText = phones.length
     phones.forEach(phone => {
         console.log(phone)
         const PhoneDiv = document.createElement('div');
@@ -57,6 +59,8 @@ const displayAllNews = phones => {
             </div>
 
             </div>
+
+            <button onclick="loadPhoneDetails('${phone.author}')" href="#" class="btn btn-primary mt-4" data-bs-toggle="modal" data-bs-target="#phoneDetailModel">Show Details</button> 
            
 
         </div>
@@ -68,6 +72,27 @@ const displayAllNews = phones => {
 }
 
 breakCard();
+
+
+
+
+const loadPhoneDetails = async id => {
+    const url = `https://openapi.programming-hero.com/api/news/{news_id}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    displayPhonesDetails(data.data)
+}
+
+
+// const displayPhonesDetails = phone => {
+//     console.log(phone);
+//     const modalTitle = document.getElementById('phoneDetailModelLabel');
+//     modalTitle.innerText = phone.name;
+//     const phoneDetails = document.getElementById('phone-Details');
+//     phoneDetails.innerHTML = `
+//     <p>Release Date: ${phone.total_view ? phone.total_view : 'No View Data Found'}</p>
+//     `
+// }
 
 
 
